@@ -10,7 +10,7 @@ install_requires = [
     "decorator>=5.1",
     "networkx>=3.1",
     "numpy>=1.21",
-    "pandas<2.0",
+    "pandas",
     "python-louvain>=0.16",
     "six",
     "scipy>=1.10.0",
@@ -22,7 +22,7 @@ if not on_rtd:
 
 setup_requires = ["cython", "numpy", "pytest-runner"]
 
-tests_require = ["pytest", "pytest-cov", "mock", "unittest"]
+tests_require = ["pytest", "pytest-cov", "mock"]
 
 
 keywords = [
