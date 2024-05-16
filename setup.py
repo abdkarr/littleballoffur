@@ -15,6 +15,7 @@ install_requires = [
     "six",
     "scipy>=1.10.0",
     "tqdm",
+    "igraph>=0.11.5"
 ]
 
 if not on_rtd:
