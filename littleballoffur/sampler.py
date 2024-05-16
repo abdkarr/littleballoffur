@@ -4,10 +4,11 @@ from typing import Union
 import networkit as nk
 import networkx as nx
 import numpy as np
+import igraph as ig
 
-from littleballoffur.backend import NetworKitBackEnd, NetworkXBackEnd
+from littleballoffur.backend import NetworKitBackEnd, NetworkXBackEnd, IGraphBackEnd
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 
@@ -27,13 +28,16 @@ class Sampler(object):
         random.seed(self.seed)
         np.random.seed(self.seed)
 
-    def _deploy_backend(self, graph: Union[NKGraph, NXGraph]):
+    def _deploy_backend(self, graph: Union[NKGraph, NXGraph, ig.Graph]):
         """Chechking the input type."""
         if isinstance(graph, NKGraph):
             self.backend = NetworKitBackEnd()
             self.backend.check_graph(graph)
         elif isinstance(graph, NXGraph):
             self.backend = NetworkXBackEnd()
+            self.backend.check_graph(graph)
+        elif isinstance(graph, ig.Graph):
+            self.backend = IGraphBackEnd()
             self.backend.check_graph(graph)
         else:
             raise ValueError("Not a NetworKit or NetworkX graph.")

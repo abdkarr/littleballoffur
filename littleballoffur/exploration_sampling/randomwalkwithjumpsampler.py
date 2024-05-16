@@ -4,7 +4,7 @@ import networkit as nk
 from typing import Union
 from littleballoffur.sampler import Sampler
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 

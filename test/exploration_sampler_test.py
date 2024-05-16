@@ -34,7 +34,7 @@ from littleballoffur.exploration_sampling import (
 )
 from littleballoffur.dataset import GraphReader
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 # -----------------------------------#

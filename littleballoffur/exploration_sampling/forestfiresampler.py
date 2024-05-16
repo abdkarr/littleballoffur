@@ -7,7 +7,7 @@ from collections import deque
 from littleballoffur.sampler import Sampler
 
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 

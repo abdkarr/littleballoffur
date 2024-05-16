@@ -9,7 +9,7 @@ from littleballoffur.sampler import Sampler
 from littleballoffur.helpers import Edge
 
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 

@@ -11,7 +11,7 @@ from littleballoffur.edge_sampling import (
 )
 
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 

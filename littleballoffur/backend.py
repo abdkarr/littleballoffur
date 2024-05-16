@@ -4,8 +4,9 @@ from typing import List, Tuple
 import networkit as nk
 import networkx as nx
 import numpy as np
+import igraph as ig
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 
@@ -255,5 +256,125 @@ class NetworkXBackEnd(object):
     def check_graph(self, graph: NXGraph):
         """Check the Little Ball of Fur assumptions about the graph."""
         self._check_networkx_graph(graph)
+        self._check_directedness(graph)
+        self._check_indexing(graph)
+
+class IGraphBackEnd(object):
+    """
+    Binding the igraph backend to serve graph operations.
+    """
+
+    def __init__(self):
+        pass
+
+    def get_number_of_nodes(self, graph: ig.Graph) -> int:
+        """
+        Given a graph return the number of nodes.
+        """
+        return graph.vcount()
+
+    def get_number_of_edges(self, graph: ig.Graph) -> int:
+        """
+        Given a graph return the number of edges.
+        """
+        return graph.ecount()
+
+    def get_nodes(self, graph: ig.Graph) -> List:
+        """
+        Given a graph return the nodes.
+        """
+        return [node.index for node in self.get_node_iterator(graph)]
+
+    def get_edges(self, graph: ig.Graph) -> List[Tuple]:
+        """
+        Given a graph return the edges.
+        """
+        return [edge.tuple for edge in graph.edges()]
+
+    def get_node_iterator(self, graph: ig.Graph):
+        """
+        Given a graph return the node iterator.
+        """
+        return graph.vs
+
+    def get_edge_iterator(self, graph: ig.Graph):
+        """
+        Given a graph return the edge iterator.
+        """
+        return graph.es
+
+    def get_degree(self, graph: ig.Graph, node: int) -> int:
+        """
+        Given a graph and node return the degree.
+        """
+        return graph.degree(node)
+
+    def get_subgraph(self, graph: ig.Graph, nodes: List[int]) -> ig.Graph:
+        """
+        Given a graph and set of inducing nodes return a subgraph.
+        """
+        return graph.induced_subgraph(nodes)
+
+    def get_neighbors(self, graph: ig.Graph, node: int) -> List[int]:
+        """
+        Given a graph and node return the neighbors.
+        """
+        return graph.neighbors(node)
+
+    def get_random_neighbor(self, graph: ig.Graph, node: int) -> int:
+        """
+        Given a graph and node returns a random neighbor.
+        """
+        neighbors = self.get_neighbors(graph, node)
+        return random.choice(neighbors)
+
+    def get_shortest_path(self, graph: ig.Graph, source: int, target: int) -> List[int]:
+        """
+        Given a graph, a source and target node pair get the shortes path
+        """
+        return graph.get_shortest_path(source, target)
+
+    def get_pagerank(self, graph: ig.Graph, alpha: float) -> np.array:
+        """
+        Given a graph return the PageRank vector.
+        """
+        pagerank = np.array(graph.pagerank(damping=alpha))
+        pagerank = pagerank / pagerank.sum()
+        return pagerank
+
+    def is_weighted(self, graph: ig.Graph) -> bool:
+        return graph.is_weighted()
+
+    def get_edge_weight(self, graph: ig.Graph, u: int, v: int) -> float:
+        return graph.es[graph.get_eid(u, v)]["weight"]
+
+    def graph_from_edgelist(self, edges: List) -> ig.Graph:
+        """
+        Given an edge list generate a graph.
+        """
+        graph = ig.Graph.TupleList(edges)
+        return graph
+
+    def _check_igraph_graph(self, graph: ig.Graph):
+        """Chechking the input type."""
+        assert isinstance(graph, ig.Graph), "This is not a igraph graph."
+
+    def _check_connectivity(self, graph: ig.Graph):
+        """Checking the connected nature of a single graph."""
+        connected = graph.is_connected()
+        assert connected, "Graph is not connected."
+
+    def _check_directedness(self, graph: ig.Graph):
+        """Checking the undirected nature of a single graph."""
+        directed = graph.is_directed()
+        assert directed == False, "Graph is directed."
+
+    def _check_indexing(self, graph: ig.Graph):
+        """Irrelevant for igraph."""
+        assert True, "The node indexing is wrong."
+
+    def check_graph(self, graph: ig.Graph):
+        """Check the Little Ball of Fur assumptions about the graph."""
+        self._check_igraph_graph(graph)
         self._check_directedness(graph)
         self._check_indexing(graph)

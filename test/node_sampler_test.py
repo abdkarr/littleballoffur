@@ -2,7 +2,7 @@ import networkx as nx
 import networkit as nk
 from littleballoffur import RandomNodeSampler, DegreeBasedSampler, PageRankBasedSampler
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 

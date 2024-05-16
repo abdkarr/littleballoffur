@@ -4,7 +4,7 @@ from typing import Union, List
 from littleballoffur.edge_sampling import RandomEdgeSampler
 
 
-NKGraph = type(nk.graph.Graph())
+NKGraph = nk.graph.Graph
 NXGraph = nx.classes.graph.Graph
 
 
