@@ -75,7 +75,7 @@ class ForestFireSampler(Sampler):
             unvisited_neighbors = neighbors.difference(self._sampled_nodes)
             score = np.random.geometric(self.p)
             count = min(len(unvisited_neighbors), score)
-            burned_neighbors = random.sample(unvisited_neighbors, count)
+            burned_neighbors = random.sample(list(unvisited_neighbors), count)
             self._visited_nodes.extendleft(
                 unvisited_neighbors.difference(set(burned_neighbors))
             )

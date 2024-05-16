@@ -42,7 +42,7 @@ class DiffusionTreeSampler(Sampler):
         """
         Doing a single random walk step.
         """
-        source_node = random.sample(self._sampled_nodes, 1)[0]
+        source_node = random.sample(list(self._sampled_nodes), 1)[0]
         neighbor = self.backend.get_random_neighbor(graph, source_node)
         if neighbor not in self._sampled_nodes:
             self._sampled_nodes.add(neighbor)
